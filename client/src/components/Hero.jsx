@@ -1,60 +1,74 @@
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { assets } from "../assets/assets";
+import "../index.css";
+
 
 const Hero = () => {
   const navigate = useNavigate();
+  const [currentBgIndex, setCurrentBgIndex] = useState(0);
+  const [nextBgIndex, setNextBgIndex] = useState(1);
+
+  const backgrounds = [
+    "/background_start.jpg",
+    "/background_1.jpg",
+    "/background_2.jpg",
+    "/background_3.jpg",
+    "/background_4.jpg",
+    "/background_5.jpg",
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentBgIndex((prev) => (prev + 1) % backgrounds.length);
+      setNextBgIndex((prev) => (prev + 1) % backgrounds.length);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <div className="px-4 sm:px-20 xl:p-32 relative inline-flex flex-col w-full justify-center bg-[url(/gradientBackground.png)] bg-cover bg-no-repeat min-h-screen">
-      {/* Heading + Sub */}
-      <div className="text-center mb-6">
-        <h1 className="text-3xl sm:text-5xl md:text-6xl 2xl:text-7xl font-semibold mx-auto leading-[1.2]">
-          Shape Your Imagination <br /> In a{" "}
-          <span className="text-[#FF6F61]">Blink</span>
-        </h1>
-        <p className="mt-4 max-w-xs sm:max-w-lg 2xl:max-w-xl m-auto max-sm:text-xs text-gray-600">
-          Enhance your content creation with our advanced BLinKAI . — craft articles, generate images, and streamline your workflow.
-        </p>
-      </div>
+    <div className="relative min-h-[150vh] w-full overflow-hidden">
+      <div
+        className="absolute top-0 left-0 w-full h-full"
+        style={{
+          backgroundImage: `url(${backgrounds[currentBgIndex]})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center center",
+          backgroundRepeat: "no-repeat",
+          transform: "scale(1.1)", // Slightly scale up to prevent white edges
+         
+          zIndex: 1,
+        }}
+      />
+      <div
+        className="absolute top-0 left-0 w-full h-full"
+        style={{
+          backgroundImage: `url(${backgrounds[nextBgIndex]})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center center",
+          backgroundRepeat: "no-repeat",
+          transform: "scale(1.1)",
+          
+          zIndex: 0,
+        }}
+      />
+    <div className="absolute bottom-10 left-6 z-10">
+    <h1 className="text-xl sm:text-xl md:text-2xl xl:text-3xl italic font-semibold leading-[1.2] text-white">
+      Create Your Imagination <br /> with{" "}
+      <span className="text-[#FF6F61] not-italic font-bold">BlinkAI</span>
+    </h1>
+  </div>
 
-      {/* Buttons */}
-      <div className="flex flex-wrap justify-center gap-4 text-sm max-sm:text-xs">
-        <button
-          onClick={() => navigate("/ai")}
-          className="bg-primary text-white px-10 py-3 rounded-lg hover:scale-102 active:scale-95 transition cursor-pointer"
-        >
-           Create Now
-        </button>
-        
-      </div>
-
-      {/* Trusted Section */}
-      <div className="flex items-center gap-4 mt-8 mx-auto text-gray-600">
-        <p> Trusted By Users </p>
-      </div>
-
-      {/* Logos Marquee */}
-      <div className="overflow-hidden mt-16 w-full">
-        <div className="w-full">
-          <div className="flex gap-12 animate-marquee whitespace-nowrap px-4">
-            <span className="text-lg font-medium text-gray-700 border border-gray-200 rounded-md px-4 py-2 bg-[#FF6F61]/10 whitespace-nowrap">Blog Titles</span>
-            <span className="text-lg font-medium text-gray-700 border border-gray-200 rounded-md px-4 py-2 bg-[#FF6F61]/10 whitespace-nowrap">Images</span>
-            <span className="text-lg font-medium text-gray-700 border border-gray-200 rounded-md px-4 py-2 bg-[#FF6F61]/10 whitespace-nowrap">Articles</span>
-            <span className="text-lg font-medium text-gray-700 border border-gray-200 rounded-md px-4 py-2 bg-[#FF6F61]/10 whitespace-nowrap">Background Remove</span>
-            <span className="text-lg font-medium text-gray-700 border border-gray-200 rounded-md px-4 py-2 bg-[#FF6F61]/10 whitespace-nowrap">Remove Object</span>
-            <span className="text-lg font-medium text-gray-700 border border-gray-200 rounded-md px-4 py-2 bg-[#FF6F61]/10 whitespace-nowrap">AI Chat</span>
-
-            {/* Duplicate for seamless loop */}
-            <span className="text-lg font-medium text-gray-700 border border-gray-200 rounded-md px-4 py-2 bg-[#FF6F61]/10 whitespace-nowrap">Blog Titles</span>
-            <span className="text-lg font-medium text-gray-700 border border-gray-200 rounded-md px-4 py-2 bg-[#FF6F61]/10 whitespace-nowrap">Images</span>
-            <span className="text-lg font-medium text-gray-700 border border-gray-200 rounded-md px-4 py-2 bg-[#FF6F61]/10 whitespace-nowrap">Articles</span>
-            <span className="text-lg font-medium text-gray-700 border border-gray-200 rounded-md px-4 py-2 bg-[#FF6F61]/10 whitespace-nowrap">Background Remove</span>
-            <span className="text-lg font-medium text-gray-700 border border-gray-200 rounded-md px-4 py-2 bg-[#FF6F61]/10 whitespace-nowrap">Remove Object</span>
-            <span className="text-lg font-medium text-gray-700 border border-gray-200 rounded-md px-4 py-2 bg-[#FF6F61]/10 whitespace-nowrap">AI Chat</span>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div className="absolute bottom-10 right-6 z-10">
+    <button
+      onClick={() => navigate("/ai")}
+      className="bg-[#FF6F61] text-white px-8 py-2.5 rounded-lg hover:scale-105 active:scale-95 transition cursor-pointer"
+    >
+      Create Now
+    </button>
+  </div>
+</div>
   );
 };
 
